@@ -40,6 +40,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut show_grid: bool = true;
     let mut autoplay: bool = false;
     let mut drawing: bool = false;
+    let mut erasing: bool = false;
 
     let mut generation: u32 = 0;
 
@@ -91,14 +92,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 }
                 Event::MouseButtonDown {
                     mouse_btn: MouseButton::Right,
-                    x,
-                    y,
                     ..
                 } => {
-                    let gridy = (y / GRID_SIZE as i32) as usize;
-                    let gridx = (x / GRID_SIZE as i32) as usize;
-                    grid[gridy][gridx] = false;
-                    renderer.grid_state = grid.clone();
+                    erasing = true;
+                }
+                Event::MouseButtonUp {
+                    mouse_btn: MouseButton::Right,
+                    ..
+                } => {
+                    erasing = false;
                 }
                 Event::KeyDown {
                     keycode: Some(Keycode::RIGHT),
@@ -136,6 +138,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 let gridy = (y / GRID_SIZE as i32) as usize;
                 let gridx = (x / GRID_SIZE as i32) as usize;
                 grid[gridy][gridx] = true;
+                renderer.grid_state = grid.clone();
+            }
+        } else if erasing {
+            let x = event_pump.mouse_state().x();
+            let y = event_pump.mouse_state().y();
+            if (0..WINDOW_SIZE.0 as i32).contains(&x) && (0..(WINDOW_SIZE.1) as i32).contains(&y) {
+                let gridy = (y / GRID_SIZE as i32) as usize;
+                let gridx = (x / GRID_SIZE as i32) as usize;
+                grid[gridy][gridx] = false;
                 renderer.grid_state = grid.clone();
             }
         }
