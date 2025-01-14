@@ -14,4 +14,8 @@ Conway's Game of Life implemented in Rust using SDL2
   <p>If you want to change the grid size, simply edit the constant GRID_SIZE in /src/lib.rs. Note: the program tends to get quite slow at grid sizes close to 1, also you should disable the grid if you still plan on doing so.</p>
   <p>For the window size, change the constant WINDOW_SIZE in the same file (x, y) or call the metod 'fullscreen()' on the window in /src/main.rs before building it.</p>
   <p>Hint: the grid wraps around at the edges, to account for the theoretically infinite grid.</p>
+
+  ![game_demo](https://github.com/TAugustL/Conways-Game-of-Life/blob/main/game_demo.png)
+  <p>Grid with a glider (window size: 1200x800, grid size = 20)</p>
+  
 </div>
